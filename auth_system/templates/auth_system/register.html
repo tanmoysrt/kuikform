@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Page</title>
+</head>
+<body>
+
+{{ message }}
+
+<form method="post">
+    {% csrf_token %}
+    <label>First name : </label><input type="text" name="first_name" required><br>
+    <label>Last name : </label><input type="text" name="last_name" required><br>
+    <label>Email Id : </label><input type="email" name="email" required><br>
+    <label>Password : </label><input type="password" name="password" required><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

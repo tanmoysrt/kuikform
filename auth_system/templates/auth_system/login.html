@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Now</title>
+</head>
+<body>
+{% if request.user.is_authenticated %}
+    <h5>Logged in</h5>
+    {% else %}
+    <h5>Not logged in</h5>
+{% endif %}
+
+{{ message }}
+
+<form method="post">
+    {% csrf_token %}
+    <label>Email ID : </label><input type="email" name="email" required><br>
+    <label>Password : </label><input type="password" name="password" required><br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
