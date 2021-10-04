@@ -5,5 +5,8 @@ from user_dashboard import views
 
 urlpatterns = [
     path("", views.dashboard),
-    path("form/<uuid:id>/", views.form_details)
+    path("createform/", views.new_form),
+    path("form/<uuid:id>/", views.form_details),
+    path("form/<uuid:id>/edit/", views.form_edit),
+    path("form/<uuid:id>/delete/", views.delete_form),
 ]

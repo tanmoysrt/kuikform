@@ -1,0 +1,14 @@
+<html>
+<head>
+    <title>New Form</title>
+</head>
+<body>
+
+    <form method="post">
+        {% csrf_token %}
+        <label>Form Title : </label><input type="text" name="title" required><br>
+        <button type="submit">Create form</button>
+    </form>
+
+</body>
+</html>

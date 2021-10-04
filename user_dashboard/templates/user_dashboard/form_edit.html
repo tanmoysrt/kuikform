@@ -1,0 +1,35 @@
+{% load dashboard_response %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Details</title>
+
+</head>
+<body>
+{{ message }}
+
+<form method="post">
+    {% csrf_token %}
+    <h3>Edit Form Details</h3>
+    <p>Formify Id : {{ form.id }}</p>
+    <p>Title : {{ form.title }}</p>
+    <p>Created On : {{ form.created_on }}</p>
+    <p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>
+    <input type="radio" name="whitelist_mode" value=1 {% if form.whitelist_mode %}checked{% endif %} ><label>Enable</label>
+    <input type="radio" name="whitelist_mode" value=0 {% if not form.whitelist_mode %}checked{% endif %} ><label>Disable</label> <br>
+    <p>Whitelisted websites : {{ form.whitelist_websites }}</p>
+    <input type="text" name="whitelisted_websites" value="{{ form.whitelist_websites|list_to_text_csv }}" ><br>
+    <p>Variables :  </p>
+    <ul>
+        {% for variable in form.variables %}
+            <li>{{ variable }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+<button type="submit">Update Details</button>
+</form>
+
+</body>
+</html>

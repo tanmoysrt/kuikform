@@ -25,7 +25,7 @@
 <body>
 
 <h3>Form Details</h3>
-<p>Formify Id : {{ form.id }}</p>
+<p>Formify Id : {{ form.id }}<a href="./edit/">Edit</a></p>
 <p>Title : {{ form.title }}</p>
 <p>Created On : {{ form.created_on }}</p>
 <p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>
@@ -40,6 +40,7 @@
 <h3>Form responses</h3>
 <table>
     <tr>
+        <th>Delete</th>
         <th>Timestamp</th>
         {% for variable in form.variables %}
             <th>{{ variable }}</th>
@@ -48,6 +49,7 @@
 
     {% for response in form_responses %}
         <tr>
+        <td><a href="?d={{ response.id }}">Delete</a></td>
         <td>{{ response.created_on }}</td>
         {% for variable in form.variables %}
             <td>{{ response.data_json|get_value:variable }}</td>
