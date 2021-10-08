@@ -1,62 +1,200 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Form Details</title>#}
+{#    <style>#}
+{#        table {#}
+{#          font-family: arial, sans-serif;#}
+{#          border-collapse: collapse;#}
+{#          width: 100%;#}
+{#        }#}
+{##}
+{#        td, th {#}
+{#          border: 1px solid #dddddd;#}
+{#          text-align: left;#}
+{#          padding: 8px;#}
+{#        }#}
+{##}
+{#        tr:nth-child(even) {#}
+{#          background-color: #dddddd;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#<h3>Form Details</h3>#}
+{#<p>Formify Id : {{ form.id }}<a href="./edit/">Edit</a></p>#}
+{#<p>Title : {{ form.title }}</p>#}
+{#<p>Created On : {{ form.created_on }}</p>#}
+{#<p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>#}
+{#<p>Whitelisted websites : {{ form.whitelist_websites }}</p>#}
+{#<p>Variables :  </p>#}
+{#<ul>#}
+{#    {% for variable in form.variables %}#}
+{#        <li>{{ variable }}</li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+{#<hr>#}
+{#<h3>Form responses</h3>#}
+{#<table>#}
+{#    <tr>#}
+{#        <th>Delete</th>#}
+{#        <th>Timestamp</th>#}
+{#        {% for variable in form.variables %}#}
+{#            <th>{{ variable }}</th>#}
+{#        {% endfor %}#}
+{#    </tr>#}
+{##}
+{#    {% for response in form_responses %}#}
+{#        <tr>#}
+{#        <td><a href="?d={{ response.id }}">Delete</a></td>#}
+{#        <td>{{ response.created_on }}</td>#}
+{#        {% for variable in form.variables %}#}
+{#            <td>{{ response.data_json|get_value:variable }}</td>#}
+{#        {% endfor %}#}
+{#        </tr>#}
+{#    {% endfor %}#}
+{##}
+{#</table>#}
+{#</body>#}
+{#</html>#}
+
+
+{% extends "user_dashboard/base.html" %}
+{% load static %}
 {% load dashboard_response %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Form Details</title>
-    <style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
 
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
+{% block  extraCSS %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" >
+{% endblock %}
 
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-    </style>
-</head>
-<body>
+{% block content %}
 
-<h3>Form Details</h3>
-<p>Formify Id : {{ form.id }}<a href="./edit/">Edit</a></p>
-<p>Title : {{ form.title }}</p>
-<p>Created On : {{ form.created_on }}</p>
-<p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>
-<p>Whitelisted websites : {{ form.whitelist_websites }}</p>
-<p>Variables :  </p>
-<ul>
-    {% for variable in form.variables %}
-        <li>{{ variable }}</li>
-    {% endfor %}
-</ul>
-<hr>
-<h3>Form responses</h3>
-<table>
-    <tr>
-        <th>Delete</th>
-        <th>Timestamp</th>
-        {% for variable in form.variables %}
-            <th>{{ variable }}</th>
-        {% endfor %}
-    </tr>
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <h6 class="card-header text-white bg-gradient-dark">
+              <a class="collapsed d-block text-white" data-bs-toggle="collapse" href="#collapse-collapsed" aria-expanded="true" aria-controls="collapse-collapsed" id="heading-collapsed">
+                  Form Details - {{ form.title }}
+                  {% if form.is_active %}
+                      <span class="badge badge-sm bg-gradient-success mx-3">Active</span>
+                  {% else %}
+                      <span class="badge badge-sm bg-gradient-warning mx-3">Inactive</span>
+                  {% endif %}
+                  <span class="badge badge-sm bg-gradient-info mx-3" onclick='window.location.href="{% url "edit_form" form.id %}"'><i class="far fa-edit"></i>&nbsp;Edit</span>
+                  <i class="fa fa-chevron-down float-end"></i>
+              </a>
+            </h6>
 
-    {% for response in form_responses %}
-        <tr>
-        <td><a href="?d={{ response.id }}">Delete</a></td>
-        <td>{{ response.created_on }}</td>
-        {% for variable in form.variables %}
-            <td>{{ response.data_json|get_value:variable }}</td>
-        {% endfor %}
-        </tr>
-    {% endfor %}
+            <div id="collapse-collapsed" class="collapse" aria-labelledby="heading-collapsed">
+              <div class="card-body px-2 py-2 w-100 col-12">
+                <div class="mb-0 row">
+                  <label for="formifyId" class="col-sm-2 col-form-label">Formify Id : </label>
+                  <div class="col">
+                    <input type="text" readonly class="form-control-plaintext" id="formifyId" value="{{ form.id }}">
+                  </div>
+                </div>
+                <div class="mb-0 row">
+                  <label for="formifyId" class="col-sm-2 col-form-label">Created On : </label>
+                  <div class="col">
+                    <input type="text" readonly class="form-control-plaintext" id="formifyId" value="{{ form.created_on }}">
+                  </div>
+                </div>
+                <div class="mb-0 row">
+                  <div class="col-10 col-sm-5">
+                    <label class="col-form-label">Form Status : </label>
+                      {% if form.is_active %}
+                        <span class="badge badge-sm bg-gradient-success">Active</span>
+                      {% else %}
+                          <span class="badge badge-sm bg-gradient-danger">Inactive</span>
+                      {% endif %}
+                  </div>
+                  <div class="col-10 col-sm-5">
+                    <label class="col-form-label">Whitelist Mode : </label>
+                      {% if form.whitelist_mode %}
+                        <span class="badge badge-sm bg-gradient-success">Enabled</span>
+                      {% else %}
+                          <span class="badge badge-sm bg-gradient-danger">Disabled</span>
+                      {% endif %}
+                  </div>
+                </div>
 
-</table>
-</body>
-</html>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>All Responses</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0" id="myTable" style="width: 100%!important;">
+                  <thead>
+                    <tr>
+
+                    <th>Timestamp</th>
+                    {% for variable in form.variables %}
+                        <th class="text-center text-uppercase text-dark font-weight-bolder opacity-8">{{ variable }}</th>
+                    {% endfor %}
+                      <th class="text-center text-uppercase text-dark font-weight-bolder opacity-8">Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for response in form_responses %}
+                    <tr>
+                        <td class="align-middle text-center">
+                            <span class="text-dark font-weight-bold">{{ response.created_on }}</span>
+                        </td>
+                        {% for variable in form.variables %}
+                            <td class="align-middle text-center">
+                                <span class="text-dark font-weight-bold">{{ response.data_json|get_value:variable }}</span>
+                            </td>
+                        {% endfor %}
+
+                          <td class="align-middle text-center">
+                            <span class="font-weight-bold badge badge-sm bg-gradient-danger mx-3" style="cursor: pointer"  onclick='window.location.href="?d={{ response.id }}"' >
+                              <i class="fas fa-minus-circle fa-lg"></i>&nbsp;&nbsp;Remove
+                            </span>
+                          </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
+
+{% block  extraJS %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" ></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+    });
+    } );
+    </script>
+{% endblock %}

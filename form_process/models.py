@@ -11,9 +11,10 @@ class Form(models.Model):
         default=uuid.uuid4,
         editable=False)
     title = models.CharField(max_length=255, null=True)
-    whitelist_mode = models.BooleanField(null=True, default=True)
+    whitelist_mode = models.BooleanField(null=True, default=False)
     whitelist_websites = models.JSONField(null=True, default=list, blank=True)
     variables = models.JSONField(null=True, default=list, blank=True)
+    is_active = models.BooleanField(null=True, default=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
 

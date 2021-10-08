@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="{% static "user_dashboard/img/apple-icon.png" %}">
+  <link rel="icon" type="image/png" href="{% static "user_dashboard/img/favicon.png" %}">
+  <title>
+    Formify
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{% static "user_dashboard/css/soft-ui-dashboard.css" %}" rel="stylesheet" />
+    {% block extraCSS %}
+
+    {% endblock %}
+</head>
+
+<body class="g-sidenav-show  bg-gray-100">
+
+  <!-- Sidebar -->
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html" target="_blank">
+        <img src="{% static "user_dashboard/img/logo-ct.png" %}" class="navbar-brand-img h-100" alt="main_logo">
+        <span class="ms-1 font-weight-bold">Soft UI Dashboard</span>
+      </a>
+    </div>
+    <hr class="horizontal dark mt-0">
+    <div class="collapse navbar-collapse  w-auto  max-height-vh-50 h-50" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link  {% if page == "dashboard" %} active {% endif %}" href="{% url "dashboard" %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+              <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                <path class="{% if page == "dashboard" %}color-background{% endif %}"  d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if page == "all_forms" %} active {% endif %}" href="{% url "all_forms" %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-ui-checks-grid" viewBox="0 0 16 16">
+                <path class="{% if page == "all_forms" %}color-background{% endif %}" d="M2 10h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1zm9-9h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm0 9a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-3zm0-10a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2h-3zM2 9a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h3a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H2zm7 2a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2v-3zM0 2a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm5.354.854a.5.5 0 1 0-.708-.708L3 3.793l-.646-.647a.5.5 0 1 0-.708.708l1 1a.5.5 0 0 0 .708 0l2-2z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">All Forms</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link  {% if page == "create_form" %} active {% endif %}"  href="{% url "create_form" %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                <path class=" {% if page == "create_form" %} color-background {% endif %}" d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                <path class=" {% if page == "create_form" %} color-background {% endif %}" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Create Form</span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link  " href="{% url "user_logout_route" %}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+              </svg>
+            </div>
+            <span class="nav-link-text ms-1">Log Out</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+    <div class="sidenav-footer mx-3 ">
+      <div class="card card-background shadow-none card-background-mask-secondary" id="sidenavCard">
+        <div class="full-background" style="background-image: url('{% static "user_dashboard/img/curved-images/white-curved.jpeg" %}')"></div>
+        <div class="card-body text-start p-3 w-100">
+          <div class="icon icon-shape icon-sm bg-white shadow text-center mb-3 d-flex align-items-center justify-content-center border-radius-md">
+            <i class="fas fa-envelope text-dark text-gradient text-lg top-0" aria-hidden="true" id="sidenavCardIcon"></i>
+          </div>
+          <div class="docs-info">
+            <h6 class="text-white up mb-0">Need help?</h6>
+            <p class="text-xs font-weight-bold">Reach out customer care</p>
+            <a href="mailto:ts741127@gmail.com?subject=Formify%20Support%20Team%20%3A" target="_blank" class="btn btn-white btn-sm w-100 mb-0">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">New Features Coming</a>
+    </div>
+  </aside>
+<!-- End Sidebar -->
+
+  <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+        <!-- Navbar -->
+        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
+          <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+              <!-- <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
+                <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+              </ol> -->
+              <h6 class="font-weight-bolder mb-0">{{ title }}</h6>
+            </nav>
+            <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+              <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                <!-- <div class="input-group">
+                  <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                  <input type="text" class="form-control" placeholder="Type here...">
+                </div> -->
+              </div>
+              <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                  <a href="javascript:" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                    <div class="sidenav-toggler-inner">
+                      <i class="sidenav-toggler-line"></i>
+                      <i class="sidenav-toggler-line"></i>
+                      <i class="sidenav-toggler-line"></i>
+                    </div>
+                  </a>
+                </li>
+
+                <li class="nav-item px-3 d-flex align-items-center">
+                  <a href="#" class="nav-link text-body p-0">
+                    Hi ! Tanmoy Sarkar
+                  </a>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <!-- End Navbar -->
+
+      {% block content %}
+
+      {% endblock %}
+  </main>
+
+    {% block modals %}
+
+    {% endblock %}
+
+
+  <!--   Core JS Files   -->
+    <script src="{% static "user_dashboard/js/core/popper.min.js" %}"></script>
+    <script src="{% static "user_dashboard/js/core/bootstrap.min.js" %}"></script>
+    <script src="{% static "user_dashboard/js/plugins/perfect-scrollbar.min.js" %}"></script>
+    <script src="{% static "user_dashboard/js/plugins/smooth-scrollbar.min.js" %}"></script>
+    <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+    </script>
+    <script src="{% static "user_dashboard/js/soft-ui-dashboard.js" %}"></script>
+    {% block extraJS %}
+
+    {% endblock %}
+</body>
+
+</html>

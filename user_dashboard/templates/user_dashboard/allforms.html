@@ -1,0 +1,166 @@
+{% extends "user_dashboard/base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h6>All Forms</h6>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2 ">
+              <div class="table-responsive">
+                <table class="table mb-0 align-items-center" id="myTable"  style="width: 100%!important">
+                  <thead>
+                    <tr>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Responses</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Whitelisted</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for form_access in list_form_access %}
+
+                    <tr>
+                      <td class="align-middle text-center">
+                        <div class="d-flex flex-column justify-content-center px-1 py-1">
+                          <h6 class="mb-0 text-sm" style="cursor: pointer;" onclick='window.location.href="{% url "view_form_response" form_access.form.id %}"' >{{ form_access.form.title }}&nbsp;&nbsp;<i class="fas fa-external-link-alt text-info"></i></h6>
+                          <p class="text-xs text-secondary mb-0">{{ form_access.form.created_on }}</p>
+                        </div>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ form_access.form.form_responses.count }}</span>
+                      </td>
+
+                      <td class="align-middle text-center text-sm">
+                          {% if form_access.form.is_active %}
+                            <span class="badge badge-sm bg-gradient-success">Active</span>
+                          {% else %}
+                              <span class="badge badge-sm bg-gradient-danger">Inactive</span>
+                          {% endif %}
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                          {% if form_access.form.whitelist_mode %}
+                            <span class="badge badge-sm bg-gradient-success">Enabled</span>
+                          {% else %}
+                              <span class="badge badge-sm bg-gradient-danger">Disabled</span>
+                          {% endif %}
+                      </td>
+                      <td class="align-middle text-center">
+                        <a href="{% url "edit_form" form_access.form.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit Form">
+                          <i class="far fa-edit fa-lg"></i>&nbsp;&nbsp;Edit
+                        </a>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+{% endblock %}
+
+{% block  extraCSS %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css" >
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" >
+{% endblock %}
+
+{#{% block content %}#}
+{#<div class="container-fluid">#}
+{#<table id="myTable" class="table table-bordered table-striped display" style="width: 100%">#}
+{#    <thead>#}
+{#      <tr>#}
+{#        <th>Company</th>#}
+{#        <th>Contact</th>#}
+{#        <th>Country</th>#}
+{#        <th>Company</th>#}
+{#        <th>Contact</th>#}
+{#        <th>Country</th>#}
+{#      </tr>#}
+{#    </thead>#}
+{#    <tbody>#}
+{#      <tr>#}
+{#        <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td>Centro comercial Moctezuma</td>#}
+{#        <td>Francisco Chang</td>#}
+{#        <td>Mexico</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td>Ernst Handel</td>#}
+{#        <td>Roland Mendel</td>#}
+{#        <td>Austria</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td>Island Trading</td>#}
+{#        <td>Helen Bennett</td>#}
+{#        <td>UK</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#      <tr>#}
+{#        <td>Laughing Bacchus Winecellars</td>#}
+{#        <td>Yoshi Tannamuri</td>#}
+{#        <td>Canada</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#    </tbody>#}
+{#    <tfoot>#}
+{#      <tr>#}
+{#        <td>Magazzini Alimentari Riuniti</td>#}
+{#        <td>Giovanni Rovelli</td>#}
+{#        <td>Italy</td>#}
+{#              <td>Alfreds Futterkiste</td>#}
+{#        <td>Maria Anders</td>#}
+{#        <td>Germany</td>#}
+{#      </tr>#}
+{#    </tfoot>#}
+{#</table>#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
+
+
+{% block  extraJS %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js" ></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+    $(document).ready( function () {
+        $('#myTable').DataTable({
+        "paging": true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+    });
+    } );
+    </script>
+{% endblock %}

@@ -105,3 +105,6 @@ AUTH_USER_MODEL = 'auth_system.UserProfile'
 CORS_ORIGIN_ALLOW_ALL = True
 
 APPEND_SLASH = True
+
+USER_LOGIN_REDIRECT_URL = "/login/"
+DASHBOARD_LINK = "/dashboard/"

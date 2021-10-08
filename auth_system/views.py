@@ -1,9 +1,12 @@
-from django.contrib.auth import login, authenticate
-from django.shortcuts import render
+from django.contrib.auth import login, authenticate, logout
+from django.shortcuts import render, redirect
 from auth_system.models import UserProfile
+from formify_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL
 
 
 def login_page(request):
+    if request.user.is_authenticated:
+        return redirect(DASHBOARD_LINK)
     data = {}
     if request.method == "POST":
         email = request.POST.get("email", "")
@@ -17,10 +20,14 @@ def login_page(request):
                 data["message"] = "Email or password is wrong"
             else:
                 login(request, user)
+                return redirect(DASHBOARD_LINK)
+
     return render(request, "auth_system/login.html", data)
 
 
 def register_page(request):
+    if request.user.is_authenticated:
+        return redirect(DASHBOARD_LINK)
     data = {}
     if request.method == "POST":
         first_name = request.POST.get("first_name", "")
@@ -41,5 +48,12 @@ def register_page(request):
             user.set_password(password)
             user.save()
             data["message"] = "Account created successfully"
+            login(request,user)
+            return redirect(DASHBOARD_LINK)
 
     return render(request, "auth_system/register.html", data)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect(USER_LOGIN_REDIRECT_URL)

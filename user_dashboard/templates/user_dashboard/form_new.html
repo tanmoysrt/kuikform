@@ -1,14 +1,113 @@
-<html>
-<head>
-    <title>New Form</title>
-</head>
-<body>
+{#<html>#}
+{#<head>#}
+{#    <title>New Form</title>#}
+{#</head>#}
+{#<body>#}
+{##}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        <label>Form Title : </label><input type="text" name="title" required><br>#}
+{#        <button type="submit">Create form</button>#}
+{#    </form>#}
+{##}
+{#</body>#}
+{#</html>#}
+{% extends "user_dashboard/base.html" %}
+{% load static %}
 
-    <form method="post">
-        {% csrf_token %}
-        <label>Form Title : </label><input type="text" name="title" required><br>
-        <button type="submit">Create form</button>
-    </form>
+{% block content %}
+        <div class="container-fluid py-4" >
+        <h3 class="text-center mt-5 mb-0 ">Choose Type Of Form Fits Your Need</h3>
 
-</body>
-</html>
+      <div class="row mt-4 w-100" style="height: 60vh; display: flex;align-items: center;justify-content: center;">
+
+        <!-- <div class="col-lg-4">
+            <div class="card p-3">
+              <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
+                <span class="mask bg-gradient-dark"></span>
+                <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
+                  <h5 class="text-white font-weight-bolder mb-4 pt-2">Form Page</h5>
+                  <p class="text-white">Just specify form title and enter which fields you need for form. Create form and share tthrough any channels. </p>
+                  <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
+                    Create Form
+                    <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card p-3">
+              <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('../assets/img/ivancik.jpg');">
+                <span class="mask bg-gradient-dark"></span>
+                <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
+                  <h5 class="text-white font-weight-bolder mb-4 pt-2">Form Builder</h5>
+                  <p class="text-white">Build form for your website without any code. Just sepcify which fields you need and everything will be generated.</p>
+                  <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
+                    Create Form
+                    <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+        </div> -->
+
+        <div class="col-lg-4">
+            <div class="card p-3" onclick="openModal(1)" style="cursor: pointer;">
+              <div class="overflow-hidden position-relative border-radius-lg bg-cover h-100" style="background-image: url('https://zyyenstudio.com/wp-content/uploads/2020/09/Golden-Mountains.jpg');">
+                <span class="mask bg-gradient-dark"></span>
+                <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
+                  <h5 class="text-white font-weight-bolder mb-4 pt-2">Custom Form</h5>
+                  <p class="text-white">Want to store responses from your website with yiour custom form ? All steup happen with just two click. </p>
+                  <a class="text-white text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;"  >
+                    Create Form
+                    <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+      </div>
+    </div>
+{% endblock %}
+
+{% block modals %}
+    <div class="modal fade" id="customFormCreateModal" tabindex="-1" aria-labelledby="customFormCreateModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="post">
+              {% csrf_token %}
+          <div class="modal-header bg-gradient-dark text-white">
+            <h5 class="modal-title text-white" id="customFormCreateModalLabel">Create Custom Form</h5>
+            <button type="button" class="btn-close text-dark " data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="cutomFormLabelInput" class="form-label">Form Label</label>
+              <input type="text" class="form-control" id="cutomFormLabelInput" name="title" placeholder="Enter a label for your form">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-info">Generate</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block extraJS %}
+<script>
+    function openModal(formType){
+      if(formType == 1){
+        var customFormCreateModal = new bootstrap.Modal(document.getElementById('customFormCreateModal'), {
+          keyboard: false
+        });
+        customFormCreateModal.show();
+      }
+    }
+</script>
+{% endblock %}
