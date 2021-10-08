@@ -10,3 +10,5 @@ urlpatterns = [
     path('dashboard/', include('user_dashboard.urls'), name="user_dashboard"),
     path('api/v1/', include('form_process.urls'))
 ]
+
+handler404 = "user_dashboard.views.handler404"

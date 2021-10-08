@@ -47,7 +47,7 @@ def form_details(request, id):
     form = Form.objects.get(id=id)
 
     data["form"] = form
-    form_responses = data["form"].form_responses.all().order_by("-created_on")
+    form_responses = form.form_responses.all().order_by("-id")
     data["form_responses"] = form_responses
 
     return render(request, "user_dashboard/form_details.html", data)
@@ -96,15 +96,20 @@ def new_form(request):
 
 @login_check_redirection_gateway
 def delete_form(request, id):
-    data = {
-        "title": "Delete Form"
-    }
+
+    message = ""
+    successful = 0
     try:
         form = Form.objects.get(id=id)
         form.delete()
         # TODO later update this with notification callback to redirect route
-        data["message"] = "Form Deleted Successfully"
+        message= "Form Deleted Successfully"
+        successful = 1
     except:
-        data["message"] = "Form Delete Unsuccessful"
+        message = "Form Delete Unsuccessful"
 
-    return render(request, "user_dashboard/delete_form_info.html", data)
+    return redirect("/dashboard/?m="+message+"&t="+str(successful))
+
+
+def handler404(request, exception):
+    return render(request, "user_dashboard/404page.html",status=404)

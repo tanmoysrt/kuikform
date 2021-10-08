@@ -1,66 +1,3 @@
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>Form Details</title>#}
-{#    <style>#}
-{#        table {#}
-{#          font-family: arial, sans-serif;#}
-{#          border-collapse: collapse;#}
-{#          width: 100%;#}
-{#        }#}
-{##}
-{#        td, th {#}
-{#          border: 1px solid #dddddd;#}
-{#          text-align: left;#}
-{#          padding: 8px;#}
-{#        }#}
-{##}
-{#        tr:nth-child(even) {#}
-{#          background-color: #dddddd;#}
-{#        }#}
-{#    </style>#}
-{#</head>#}
-{#<body>#}
-{##}
-{#<h3>Form Details</h3>#}
-{#<p>Formify Id : {{ form.id }}<a href="./edit/">Edit</a></p>#}
-{#<p>Title : {{ form.title }}</p>#}
-{#<p>Created On : {{ form.created_on }}</p>#}
-{#<p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>#}
-{#<p>Whitelisted websites : {{ form.whitelist_websites }}</p>#}
-{#<p>Variables :  </p>#}
-{#<ul>#}
-{#    {% for variable in form.variables %}#}
-{#        <li>{{ variable }}</li>#}
-{#    {% endfor %}#}
-{#</ul>#}
-{#<hr>#}
-{#<h3>Form responses</h3>#}
-{#<table>#}
-{#    <tr>#}
-{#        <th>Delete</th>#}
-{#        <th>Timestamp</th>#}
-{#        {% for variable in form.variables %}#}
-{#            <th>{{ variable }}</th>#}
-{#        {% endfor %}#}
-{#    </tr>#}
-{##}
-{#    {% for response in form_responses %}#}
-{#        <tr>#}
-{#        <td><a href="?d={{ response.id }}">Delete</a></td>#}
-{#        <td>{{ response.created_on }}</td>#}
-{#        {% for variable in form.variables %}#}
-{#            <td>{{ response.data_json|get_value:variable }}</td>#}
-{#        {% endfor %}#}
-{#        </tr>#}
-{#    {% endfor %}#}
-{##}
-{#</table>#}
-{#</body>#}
-{#</html>#}
-
-
 {% extends "user_dashboard/base.html" %}
 {% load static %}
 {% load dashboard_response %}
@@ -157,7 +94,10 @@
                         </td>
                         {% for variable in form.variables %}
                             <td class="align-middle text-center">
-                                <span class="text-dark font-weight-bold">{{ response.data_json|get_value:variable }}</span>
+                                <span class="text-dark font-weight-bold">{% autoescape off %}
+                                    {{ response.data_json|get_value:variable }}
+                                {% endautoescape %}
+                                </span>
                             </td>
                         {% endfor %}
 
@@ -194,6 +134,7 @@
         "info": true,
         "autoWidth": true,
         "responsive": true,
+        "order" : [[0,"desc"]]
     });
     } );
     </script>
