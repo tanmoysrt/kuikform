@@ -40,7 +40,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'formify_backend.urls'
+ROOT_URLCONF = 'kuikform_backend.urls'
 
 TEMPLATES = [
     {
@@ -58,7 +58,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'formify_backend.wsgi.application'
+WSGI_APPLICATION = 'kuikform_backend.wsgi.application'
 
 DATABASES = {
     'default': {

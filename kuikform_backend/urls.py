@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from auth_system.views import login_page, register_page, logout_user
+from user_dashboard.views import landing_page
 
 urlpatterns = [
+    path('',landing_page, name="landing_page"),
     path('admin/', admin.site.urls),
     path('login/', login_page, name="user_login_page"),
     path('logout/', logout_user, name="user_logout_route"),

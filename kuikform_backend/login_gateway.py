@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from functools import wraps
-from formify_backend.settings import USER_LOGIN_REDIRECT_URL
+from kuikform_backend.settings import USER_LOGIN_REDIRECT_URL
 
 
 def login_check_redirection_gateway(view_func):

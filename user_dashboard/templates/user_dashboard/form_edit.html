@@ -112,7 +112,9 @@
                 </div>
             </div>
                 <div class="card-footer">
-                    <a class="btn btn-danger bg-gradient-danger float-start" href="{% url "delete_form" form.id %}">Delete Form</a>
+                    <a class="btn btn-danger bg-gradient-danger" data-bs-target="#deleteConfirmationModal" data-bs-toggle="modal">Delete form</a>
+                    <span style="width: 50px"></span>
+                    <a class="btn btn-success bg-gradient-success" data-bs-target="#addToWebsiteCodeSnippet"  data-bs-toggle="modal" >Add Form To Website</a>
                     <button class="btn btn-info bg-gradient-info float-end" type="submit">Update Form</button>
                 </div>
             </form>
@@ -151,7 +153,7 @@
               <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
                 <h5 class="text-white font-weight-bolder mb-4 pt-2">Contact Us</h5>
                 <p class="text-white">If you face any issue regarding installation in your website , mail us to <i>admin@formify.com</i>. We will respond to your mail within 2 hour. </p>
-                <a class="text-white text-xss font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
+                <a class="text-white text-xss font-weight-bold mb-0 icon-move-right mt-auto" href="mailto:ts741127@gmail.com?subject=Formify%20Support%20Team%20%3A"  target="_blank">
                   Mail us now :)
                   <i class="fas fa-envelope text-sm ms-1" aria-hidden="true"></i>
                 </a>
@@ -162,4 +164,74 @@
       </div>
 
     </div>
+
+
+{% endblock %}
+
+{% block modals %}
+    <div class="modal fade" id="addToWebsiteCodeSnippet" tabindex="-1" aria-labelledby="addToWebsiteCodeSnippetLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-gradient-dark text-white">
+            <h5 class="modal-title text-white" id="addToWebsiteCodeSnippetLabel">Follow the instructions</h5>
+            <button type="button" class="btn-close text-dark " data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label  class="text-lg-center">Your form id : </label>
+              <input type="text" class="form-control" value="{{ form.id }}" readonly>
+            </div>
+            <div class="mb-3">
+              <label class="text-lg-center">Add the form id in your html -> body -> form tag</label>
+              <textarea readonly class="form-control" rows="5" style="line-height: 30px">
+  <!--- Put the form id in the form tag like below --->
+  <form formify-id="{{ form.id }}">
+        <!--- Your code -->
+  </form>
+              </textarea>
+            </div>
+              <div class="mb-3">
+              <label class="text-lg-center">Add this JS library in body </label>
+              <input type="text" class="form-control" value='<script src="https://jsscript.org/"></script>' readonly>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-gradient-danger text-white">
+            <h5 class="modal-title text-white" id="deleteConfirmationModalLabel">Do you want to delete this form ? </h5>
+            <button type="button" class="btn-close text-dark " data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <h6 style="color: red">Note : You will loss access from the form and all the form responses. The data is non-recoverable once you delete.</h6>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <a class="btn btn-danger bg-gradient-danger" href="{% url "delete_form" form.id %}">Confirm Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block extraJS %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+    $(document).ready(function() {
+
+      if(window.location.href.indexOf('#addToWebsiteCodeSnippet') != -1) {
+        $('#addToWebsiteCodeSnippet').modal('show');
+      }
+
+    });
+    </script>
 {% endblock %}

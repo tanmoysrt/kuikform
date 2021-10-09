@@ -10,7 +10,7 @@
             <div class="card-header pb-0">
               <h6>All Forms</h6>
             </div>
-            <div class="card-body px-0 pt-0 pb-2 ">
+            <div class="card-body pt-0 pb-2 ">
               <div class="table-responsive">
                 <table class="table mb-0 align-items-center" id="myTable"  style="width: 100%!important">
                   <thead>
@@ -153,13 +153,21 @@
     <script>
     $(document).ready( function () {
         $('#myTable').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": true,
-        "responsive": true,
+            paging: true,
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            autoWidth: true,
+            responsive: true,
+            language: {
+                oPaginate: {
+                    sNext: '<i class="fa fa-forward"></i>',
+                    sPrevious: '<i class="fa fa-backward"></i>',
+                    sFirst: '<i class="fa fa-step-backward"></i>',
+                    sLast: '<i class="fa fa-step-forward"></i>'
+                }
+            }
     });
     } );
     </script>

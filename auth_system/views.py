@@ -1,7 +1,7 @@
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from auth_system.models import UserProfile
-from formify_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL
+from kuikform_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL
 
 
 def login_page(request):

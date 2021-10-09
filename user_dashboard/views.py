@@ -2,7 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from auth_system.models import UserProfile
 from form_process.models import Form, FormAccess, FormResponse
-from formify_backend.login_gateway import login_check_redirection_gateway
+from kuikform_backend.login_gateway import login_check_redirection_gateway
+
+
+def landing_page(request):
+    return render(request, "user_dashboard/landing.html")
 
 
 @login_check_redirection_gateway
@@ -90,26 +94,25 @@ def new_form(request):
                 form=formRecord,
                 access_level="admin"
             )
-            return redirect("/dashboard/form/" + str(formRecord.id) + "/edit/")
+            return redirect("/dashboard/form/" + str(formRecord.id) + "/edit/#addToWebsiteCodeSnippet")
     return render(request, "user_dashboard/form_new.html", data)
 
 
 @login_check_redirection_gateway
 def delete_form(request, id):
-
     message = ""
     successful = 0
     try:
         form = Form.objects.get(id=id)
         form.delete()
         # TODO later update this with notification callback to redirect route
-        message= "Form Deleted Successfully"
+        message = "Form Deleted Successfully"
         successful = 1
     except:
         message = "Form Delete Unsuccessful"
 
-    return redirect("/dashboard/?m="+message+"&t="+str(successful))
+    return redirect("/dashboard/?m=" + message + "&t=" + str(successful))
 
 
 def handler404(request, exception):
-    return render(request, "user_dashboard/404page.html",status=404)
+    return render(request, "user_dashboard/404page.html", status=404)
