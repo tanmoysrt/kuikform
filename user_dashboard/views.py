@@ -1,6 +1,4 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from auth_system.models import UserProfile
 from form_process.models import Form, FormAccess, FormResponse
 from kuikform_backend.login_gateway import login_check_redirection_gateway
 
@@ -64,14 +62,30 @@ def form_edit(request, id):
     }
     form = Form.objects.get(id=id)
     if request.method == "POST":
-        whitelist_mode = int(request.POST.get("whitelist_mode", 0))
-        form_status = int(request.POST.get("form_status", 0))
-        whitelisted_websites = str(request.POST.get("whitelisted_websites", "")).strip()
-        form.whitelist_mode = True if whitelist_mode == 1 else False
-        form.is_active = True if form_status == 1 else False
-        form.whitelist_websites = whitelisted_websites.split(",")
-        form.save()
-        data["message"] = "Updated Successfully"
+        message = ""
+        successful = 0
+        try: 
+            whitelist_mode = int(request.POST.get("whitelist_mode", 0))
+            form_status = int(request.POST.get("form_status", 0))
+            whitelisted_websites = str(request.POST.get("whitelisted_websites", "")).strip("")
+
+            form.whitelist_mode = True if whitelist_mode == 1 else False
+            form.is_active = True if form_status == 1 else False
+
+            whitelisted_websites_final = []
+
+            for website in whitelisted_websites.split(","):
+                # o = urlparse(website.strip())
+                whitelisted_websites_final.append(website.replace(" ",""))
+
+            form.whitelist_websites = whitelisted_websites_final
+            form.save()
+            message = "Form updated successfully !"
+            successful = 1
+        except:
+            message = "Form updation failed !"
+            successful = 0
+            return redirect("dashboard/form/"+str(form.id)+"/edit/?m="+message+"&t="+str(successful))
 
     data["form"] = form
     return render(request, "user_dashboard/form_edit.html", data)
@@ -105,7 +119,6 @@ def delete_form(request, id):
     try:
         form = Form.objects.get(id=id)
         form.delete()
-        # TODO later update this with notification callback to redirect route
         message = "Form Deleted Successfully"
         successful = 1
     except:

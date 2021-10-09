@@ -1,38 +1,3 @@
-{#{% load dashboard_response %}#}
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <title>Form Details</title>#}
-{##}
-{#</head>#}
-{#<body>#}
-{#{{ message }}#}
-{##}
-{#<form method="post">#}
-{#    {% csrf_token %}#}
-{#    <h3>Edit Form Details</h3>#}
-{#    <p>Formify Id : {{ form.id }}</p>#}
-{#    <p>Title : {{ form.title }}</p>#}
-{#    <p>Created On : {{ form.created_on }}</p>#}
-{#    <p>Whitelist mode : {% if form.whitelist_mode %} <b>Activated</b> {% else %} <b>Deactivated</b>  {% endif %} </p>#}
-{#    <input type="radio" name="whitelist_mode" value=1 {% if form.whitelist_mode %}checked{% endif %} ><label>Enable</label>#}
-{#    <input type="radio" name="whitelist_mode" value=0 {% if not form.whitelist_mode %}checked{% endif %} ><label>Disable</label> <br>#}
-{#    <p>Whitelisted websites : {{ form.whitelist_websites }}</p>#}
-{#    <input type="text" name="whitelisted_websites" value="{{ form.whitelist_websites|list_to_text_csv }}" ><br>#}
-{#    <p>Variables :  </p>#}
-{#    <ul>#}
-{#        {% for variable in form.variables %}#}
-{#            <li>{{ variable }}</li>#}
-{#        {% endfor %}#}
-{#    </ul>#}
-{#    <hr>#}
-{##}
-{#<button type="submit">Update Details</button>#}
-{#</form>#}
-{##}
-{#</body>#}
-{#</html>#}
 
 {% extends "user_dashboard/base.html" %}
 {% load static %}
@@ -108,7 +73,10 @@
                     <label  class="col-sm-2 col-form-label">Whitelisted Websites</label>
                     <div class="col-sm-8">
                       <input type="text" class="form-control" name="whitelisted_websites" value="{{ form.whitelist_websites|list_to_text_csv }}" >
+                      <small  class="form-text text-muted"><b><i>NOTE</i></b> : Don't include http or https. If your website is <b>http://example.com/</b>, then enter only <b>example.com</b> </small>
+
                     </div>
+
                 </div>
             </div>
                 <div class="card-footer">
@@ -224,6 +192,7 @@
 
 {% block extraJS %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
     $(document).ready(function() {
@@ -234,4 +203,35 @@
 
     });
     </script>
+     <script>
+     function getParameterByName(name, url = window.location.href) {
+         name = name.replace(/[\[\]]/g, '\\$&');
+         var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+             results = regex.exec(url);
+         if (!results) return null;
+         if (!results[2]) return '';
+         return decodeURIComponent(results[2].replace(/\+/g, ' '));
+     }
+     window.onload = function (){
+         var message = getParameterByName("m");
+         var type = getParameterByName("t");
+         if(message && type){
+             if(type == 0){
+                 Swal.fire({
+                   title: 'Error!',
+                   text: message,
+                   icon: 'error',
+                   confirmButtonText: 'OK'
+                 })
+             }else if(type == 1){
+                 Swal.fire({
+                   title: 'Done!',
+                   text: message,
+                   icon: 'success',
+                   confirmButtonText: 'OK'
+                 })
+             }
+         }
+     }
+     </script>
 {% endblock %}

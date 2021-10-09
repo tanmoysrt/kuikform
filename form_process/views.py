@@ -1,4 +1,5 @@
 import json
+from urllib.parse import urlparse
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -14,6 +15,34 @@ def FormSubmission(request):
     try:
         jsonBody = json.loads(request.body)
         form_record = Form.objects.get(id=jsonBody["id"])
+
+        if form_record.whitelist_mode:
+            if "HTTP_ORIGIN" in request.META:
+                 o = urlparse(request.META["HTTP_ORIGIN"])
+                #  print(o.netloc)
+                #  print(form_record.whitelist_websites)
+                 if o.netloc not in form_record.whitelist_websites:
+                    return JsonResponse({
+                        "success": False,
+                        "message": "",
+                        "error": "Website Not Whitelisted"
+                        })
+            else:
+                return JsonResponse({
+                    "success": False,
+                    "message": "",
+                    "error": "Use a secure browser"
+                    })
+
+
+        if not form_record.is_active:
+            return JsonResponse({
+                "success": False,
+                "message": "",
+                "error": "Form Submission Closed"
+                })
+        
+
 
         keys_in_form = list(jsonBody["data"].keys())
         form_record_keys = list(form_record.variables)
