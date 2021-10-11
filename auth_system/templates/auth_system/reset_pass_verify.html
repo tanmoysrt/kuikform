@@ -1,0 +1,13 @@
+<html>
+<body>
+{{ message }}
+
+{% if showForm %}
+    <form method="post">
+    {% csrf_token %}
+    <input type="text" name="password" required>
+    <button type="submit">Submit</button>
+    </form>
+{% endif %}
+</body>
+</html>

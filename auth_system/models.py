@@ -15,11 +15,11 @@ class UserProfile(AbstractUser):
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
     email = models.EmailField(unique=True)
-    picture = models.FileField(upload_to="profile_pics",default="default_profile_pic.jpeg")
+    picture = models.FileField(upload_to="profile_pics", default="default_profile_pic.jpeg")
     verified = models.BooleanField(default=False)
     user_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    REQUIRED_FIELDS = ["first_name","last_name"]
+    REQUIRED_FIELDS = ["first_name", "last_name"]
     USERNAME_FIELD = 'email'
     objects = CustomUserManager()
 
@@ -33,3 +33,21 @@ class APIToken(models.Model):
     generated_on = models.DateTimeField(auto_now_add=True)
     ip_address = models.CharField(max_length=150, null=True)
 
+
+class ResetLinkDirectory(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="reset_link")
+    verification_key = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+
+class VerifyMailLinkDirectory(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name="verify_mail_link")
+    verification_key = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)

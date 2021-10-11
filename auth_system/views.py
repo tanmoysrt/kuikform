@@ -1,7 +1,11 @@
+import random
+import string
+
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
-from auth_system.models import UserProfile
+from auth_system.models import UserProfile, ResetLinkDirectory, VerifyMailLinkDirectory
 from kuikform_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL
+from kuikform_backend.utils import send_reset_mail, send_verification_link_mail
 
 
 def login_page(request):
@@ -9,18 +13,39 @@ def login_page(request):
         return redirect(DASHBOARD_LINK)
     data = {}
     if request.method == "POST":
-        email = request.POST.get("email", "")
-        password = request.POST.get("password", "")
+        action = request.POST.get("action", "")
+        if action == "login":
+            email = request.POST.get("email", "")
+            password = request.POST.get("password", "")
 
-        if email == "" and password == "":
-            data["message"] = "Email and password can't be blank"
-        else:
-            user = authenticate(email=email, password=password)
-            if user is None:
-                data["message"] = "Email or password is wrong"
+            if email == "" and password == "":
+                data[
+                    "message"] = '<div class="alert alert-danger text-white" role="alert">Email and password can\'t be blank</div>'
             else:
-                login(request, user)
-                return redirect(DASHBOARD_LINK)
+                user = authenticate(email=email, password=password)
+                if user is None:
+                    data[
+                        "message"] = '<div class="alert alert-danger text-white" role="alert">Email or password is wrong</div>'
+                else:
+                    login(request, user)
+                    return redirect(DASHBOARD_LINK)
+        elif action == "reset_pass":
+            reset_mail = request.POST.get("reset_mail", "")
+            if not UserProfile.objects.filter(email=reset_mail).exists():
+                data[
+                    "message"] = '<div class="alert alert-danger text-white" role="alert">Email Id is not registered</div>'
+            else:
+                uniqueKey = ''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
+
+                user = UserProfile.objects.get(email=reset_mail)
+                record = ResetLinkDirectory.objects.create(
+                    user=user,
+                    verification_key=uniqueKey
+                )
+                send_reset_mail(user.first_name + " " + user.last_name, user.email,
+                                f"http://127.0.0.1:8000/reset/?i={str(record.id)}&k={record.verification_key}")
+                data["message"] = '<div class="alert alert-success text-white" role="alert">Reset link has been sent ' \
+                                  'to mail id</div> '
 
     return render(request, "auth_system/login.html", data)
 
@@ -48,7 +73,13 @@ def register_page(request):
             user.set_password(password)
             user.save()
             data["message"] = "Account created successfully"
-            login(request,user)
+            login(request, user)
+            record = VerifyMailLinkDirectory.objects.create(
+                user=request.user,
+                verification_key=''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
+            )
+            send_verification_link_mail(request.user.first_name + " " + request.user.last_name, request.user.email,
+                                        f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
             return redirect(DASHBOARD_LINK)
 
     return render(request, "auth_system/register.html", data)
@@ -57,3 +88,58 @@ def register_page(request):
 def logout_user(request):
     logout(request)
     return redirect(USER_LOGIN_REDIRECT_URL)
+
+
+def reset_link_verify(request):
+    data = {}
+    showForm = True
+    resetid = request.GET.get("i", "");
+    key = request.GET.get("k", "")
+
+    try:
+        record = ResetLinkDirectory.objects.get(id=resetid, verification_key=key)
+        if request.method == "POST":
+            password = request.POST.get("password", "")
+            user = record.user
+            user.set_password(password)
+            record.delete()
+            user.save()
+            showForm = False
+            data["message"] = "Password Changed Successfully"
+    except:
+        showForm = False
+        data["message"] = "Invalid Link"
+    data["showForm"] = showForm
+    return render(request, "auth_system/reset_pass_verify.html", data)
+
+def verify_mail_details_page(request):
+    resend = int(request.GET.get("resend",0))
+    if resend == 1:
+        record = VerifyMailLinkDirectory.objects.create(
+            user=request.user,
+            verification_key=''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
+        )
+        send_verification_link_mail(request.user.first_name + " " + request.user.last_name, request.user.email,
+                        f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
+
+    if request.user.verified:
+        return redirect("/dashboard/")
+
+    return render(request,"auth_system/verify_mail.html")
+
+def verify_mail_id(request):
+    data = {}
+    recordid = request.GET.get("i", "");
+    key = request.GET.get("k", "")
+
+    try:
+        record = VerifyMailLinkDirectory.objects.get(id=recordid, verification_key=key)
+        user = record.user
+        user.verified = True
+        user.save()
+        record.delete()
+        data["message"] = "email id verified successfully"
+    except:
+        data["message"] = "Invalid Link"
+    return render(request, "auth_system/verify_mail_confirmation.html", data)
+

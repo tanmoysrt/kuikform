@@ -15,13 +15,14 @@
                 </div>
                 <div class="card-body">
                     {% if message %}
-                        <div class="alert alert-danger text-white" role="alert">
+                        {% autoescape off %}
                             {{ message }}
-                        </div>
+                        {% endautoescape %}
                     {% endif %}
 
                   <form role="form" method="post">
                       {% csrf_token %}
+                      <input type="hidden" name="action" value="login" >
                     <label>Email</label>
                     <div class="mb-3">
                       <input type="email" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="email-addon" required>
@@ -40,6 +41,9 @@
                   </form>
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                    <button class="mb-2 btn text-sm mx-auto text-danger text-gradient font-weight-bold" data-bs-toggle="modal" data-bs-target="#resetLinkRequestModal">
+                        Forget Password ?
+                    </button>
                   <p class="mb-4 text-sm mx-auto">
                     Don't have an account?
                     <a href="{% url "user_registration_page" %}" class="text-info text-gradient font-weight-bold">Sign up</a>
@@ -57,4 +61,31 @@
       </div>
     </section>
   </main>
+{% endblock %}
+
+{% block modals %}
+    <div class="modal fade" id="resetLinkRequestModal" tabindex="-1" aria-labelledby="resetLinkRequestModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form method="post">
+              {% csrf_token %}
+            <input type="hidden" name="action" value="reset_pass" >
+          <div class="modal-header bg-gradient-warning text-white">
+            <h5 class="modal-title text-white" id="resetLinkRequestModalLabel">Reset Password</h5>
+            <button type="button" class="btn-close text-dark " data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="cutomFormLabelInput" class="form-label">Enter Email Id </label>
+              <input type="email" class="form-control" id="cutomFormLabelInput" name="reset_mail" placeholder="Enter registered email id">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn bg-gradient-success">Reset Password</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
 {% endblock %}
