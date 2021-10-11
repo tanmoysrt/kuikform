@@ -119,7 +119,7 @@ def verify_mail_details_page(request):
         return redirect("/dashboard/")
 
     resend = int(request.GET.get("resend", 0))
-    resend = 0
+
     if resend == 1:
         record = VerifyMailLinkDirectory.objects.create(
             user=request.user,
