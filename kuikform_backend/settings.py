@@ -14,7 +14,7 @@ environ.Env.read_env()
 
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = True if env('DEBUG') == 1 else False
+DEBUG = True if env('DEBUG') == 1 or env('DEBUG') == '1' else False
 MAIN_ENDPOINT = env("ENDPOINT")
 MAIN_PROTOCOL = env("PROTOCOL")
 SMTP_USERID = env("SMTP_USERID")
@@ -23,7 +23,7 @@ SMTP_PASSWORD = env("SMTP_PASSWORD")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-ALLOWED_HOSTS = [MAIN_ENDPOINT]
+ALLOWED_HOSTS = ["127.0.0.1",MAIN_ENDPOINT]
 
 # Application definition
 
@@ -75,6 +75,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    }
+} if DEBUG else {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASS'),
+        'HOST': env('DB_HOST')
     }
 }
 

@@ -1,6 +1,8 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from auth_system.views import login_page, register_page, logout_user, reset_link_verify,verify_mail_details_page, verify_mail_id
+from kuikform_backend import settings
 from user_dashboard.views import landing_page
 
 urlpatterns = [
@@ -13,7 +15,7 @@ urlpatterns = [
     path('verifymailplease/',verify_mail_details_page),
     path('verifymail/',verify_mail_id),
     path('dashboard/', include('user_dashboard.urls'), name="user_dashboard"),
-    path('api/v1/', include('form_process.urls'))
+    path('api/v1/', include('form_process.urls')),
 ]
 
 handler404 = "user_dashboard.views.handler404"
