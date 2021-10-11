@@ -4,7 +4,7 @@ import string
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from auth_system.models import UserProfile, ResetLinkDirectory, VerifyMailLinkDirectory
-from kuikform_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL
+from kuikform_backend.settings import DASHBOARD_LINK, USER_LOGIN_REDIRECT_URL, MAIN_ENDPOINT, MAIN_PROTOCOL
 from kuikform_backend.utils import send_reset_mail, send_verification_link_mail
 
 
@@ -43,7 +43,7 @@ def login_page(request):
                     verification_key=uniqueKey
                 )
                 send_reset_mail(user.first_name + " " + user.last_name, user.email,
-                                f"http://127.0.0.1:8000/reset/?i={str(record.id)}&k={record.verification_key}")
+                                f"{MAIN_PROTOCOL}{MAIN_ENDPOINT}/reset/?i={str(record.id)}&k={record.verification_key}")
                 data["message"] = '<div class="alert alert-success text-white" role="alert">Reset link has been sent ' \
                                   'to mail id</div> '
 
@@ -80,7 +80,7 @@ def register_page(request):
                 verification_key=''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
             )
             send_verification_link_mail(request.user.first_name + " " + request.user.last_name, request.user.email,
-                                        f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
+                                        f"{MAIN_PROTOCOL}{MAIN_ENDPOINT}/verifymail/?i={str(record.id)}&k={record.verification_key}")
             return redirect(DASHBOARD_LINK)
 
     return render(request, "auth_system/register.html", data)
@@ -126,7 +126,7 @@ def verify_mail_details_page(request):
             verification_key=''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
         )
         send_verification_link_mail(request.user.first_name + " " + request.user.last_name, request.user.email,
-                                    f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
+                                    f"{MAIN_PROTOCOL}{MAIN_ENDPOINT}/verifymail/?i={str(record.id)}&k={record.verification_key}")
 
     return render(request, "auth_system/verify_mail.html")
 

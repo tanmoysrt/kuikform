@@ -1,18 +1,29 @@
 from pathlib import Path
+import os, environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(
+    SECRET_KEY=(str, "django-insecure-(68ggl!jo9g%e8&t=jav^p0+6=+xvrn+g5)oid)8u)q3e1xwg&"),
+    DEBUG=(int, 0),
+    ENDPOINT=(str, "127.0.0.1:8000"),
+    PROTOCOL=(str, "http://"),
+    SMTP_USERID=(str, ""),
+    SMTP_PASSWORD=(str, "")
+)
+environ.Env.read_env()
+
+
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = True if env('DEBUG') == 1 else False
+MAIN_ENDPOINT = env("ENDPOINT")
+MAIN_PROTOCOL = env("PROTOCOL")
+SMTP_USERID = env("SMTP_USERID")
+SMTP_PASSWORD = env("SMTP_PASSWORD")
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(68ggl!jo9g%e8&t=jav^p0+6=+xvrn+g5)oid)8u)q3e1xwg&'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [MAIN_ENDPOINT]
 
 # Application definition
 

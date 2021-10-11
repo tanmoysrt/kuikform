@@ -3,7 +3,7 @@ import ssl
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+from kuikform_backend.settings import SMTP_PASSWORD, SMTP_USERID
 
 def send_reset_mail(name, mail_id, reset_link):
     context = ssl.create_default_context()
@@ -98,8 +98,8 @@ def send_reset_mail(name, mail_id, reset_link):
         part1 = MIMEText(html, "html")
         message.attach(part1)
 
-        smtp_user = "AKIAW4PCWWKZJHPKFZ7V"
-        smtp_pass = "BK2jfF8iah2O921vSC/vUCOT26wO9z1pGcsva+ICXL1v"
+        smtp_user = SMTP_USERID
+        smtp_pass = SMTP_PASSWORD
         server = smtplib.SMTP("email-smtp.ap-south-1.amazonaws.com", 587)
         server.ehlo()  # Can be omitted
         server.starttls(context=context)  # Secure the connection
