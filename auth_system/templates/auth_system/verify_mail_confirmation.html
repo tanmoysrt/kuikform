@@ -1,6 +1,22 @@
-<html>
+{% extends "auth_system/base.html" %}
 
-<body>
-    {{ message }}
-</body>
-</html>
+{% block content %}
+    {% if verified %}
+        <div class="container-fluid min-vh-100 d-flex flex-column align-content-center justify-content-center"
+             style="background-color: darkblue">
+            <a class="text-center" style="font-size: 10rem; color: white"><i class="far fa-check-circle"></i></a>
+            <h1 class="text-light text-bold text-uppercase text-center letter-spacing-1">Email id verified
+                successfully</h1>
+            <a class="btn btn-white text-center btn-lg mt-5 mx-auto text-sm" href="{% url "dashboard" %}">Visit
+                Dashboard</a>
+        </div>
+    {% else %}
+        <div class="container-fluid min-vh-100 d-flex flex-column align-content-center justify-content-center"
+             style="background-color: darkblue">
+            <a class="text-center" style="font-size: 10rem; color: white"><i class="far fa-times-circle"></i></a>
+            <h1 class="text-light text-bold text-uppercase text-center letter-spacing-1">Verification Failed</h1>
+            <a class="btn btn-white text-center btn-lg mt-5 mx-auto text-sm" href="/">Go To Home</a>
+        </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,5 +1,25 @@
-<html>
-<body>
-<h1>Please verify mail id</h1>
-</body>
-</html>
+{% extends "auth_system/base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container min-vh-75 d-flex flex-column align-content-center justify-content-center">
+        <h1 class="text-gradient text-dark">{{ message }}</h1>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+                                <img src="{% static "user_dashboard/img/logov_2.png" %}" class="col-lg-7 col-12" alt="Kuik Form Logo" />
+                                <h2 class="text-gradient text-info pt-5">Verify E-Mail Id</h2>
+                                <h5 class="text-muted text-info pt-1">Click on the link send in e-mail</h5>
+                                <a href="?resend=1" class="btn btn-instagram mt-5 text-sm letter-spacing-2">Resend Verification Link</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from form_process.models import Form, FormAccess, FormResponse
 from kuikform_backend.login_gateway import login_check_redirection_gateway
@@ -33,62 +35,75 @@ def all_forms(request):
 
 @login_check_redirection_gateway
 def form_details(request, id):
-    # TODO check permission and form existance
+
     data = {
         "title": "Form details",
     }
+    try:
+        form = Form.objects.get(id=id)
+        if not form.form_accesses.filter(user_id=request.user.id, access_level="admin").exists():
+            return HttpResponse("<h1>4XX Not Found</h1>", status=404)
 
-    if "d" in request.GET:
-        try:
-            responseId = request.GET["d"]
-            FormResponse.objects.get(id=responseId).delete()
-            print("Deleted Successfully")
-        except:
-            print("Delete Failed")
 
-    form = Form.objects.get(id=id)
+        if "d" in request.GET:
+            try:
+                responseId = request.GET["d"]
+                FormResponse.objects.get(id=responseId).delete()
+                return redirect(request.path+"?m=Deleted%20Successfully&t=1")
+            except:
+                return redirect(request.path+"?m=Failed%20To%20Delete&t=0")
 
-    data["form"] = form
-    form_responses = form.form_responses.all().order_by("-id")
-    data["form_responses"] = form_responses
 
-    return render(request, "user_dashboard/form_details.html", data)
+        data["form"] = form
+        form_responses = form.form_responses.all().order_by("-id")
+        data["form_responses"] = form_responses
+
+
+        return render(request, "user_dashboard/form_details.html", data)
+    except ObjectDoesNotExist:
+        return HttpResponse("<h1>4XX Not Found</h1>", status=404)
 
 
 @login_check_redirection_gateway
 def form_edit(request, id):
     data = {
         "title": "Edit Form",
+        "title": "Edit Form",
     }
-    form = Form.objects.get(id=id)
-    if request.method == "POST":
-        message = ""
-        successful = 0
-        try: 
-            whitelist_mode = int(request.POST.get("whitelist_mode", 0))
-            form_status = int(request.POST.get("form_status", 0))
-            whitelisted_websites = str(request.POST.get("whitelisted_websites", "")).strip("")
-
-            form.whitelist_mode = True if whitelist_mode == 1 else False
-            form.is_active = True if form_status == 1 else False
-
-            whitelisted_websites_final = []
-
-            for website in whitelisted_websites.split(","):
-                # o = urlparse(website.strip())
-                whitelisted_websites_final.append(website.replace(" ",""))
-
-            form.whitelist_websites = whitelisted_websites_final
-            form.save()
-            message = "Form updated successfully !"
-            successful = 1
-        except:
-            message = "Form updation failed !"
+    try:
+        form = Form.objects.get(id=id)
+        if not form.form_accesses.filter(user_id=request.user.id, access_level="admin").exists():
+            return HttpResponse("<h1>4XX Not Found</h1>", status=404)
+        if request.method == "POST":
+            message = ""
             successful = 0
+            try:
+                whitelist_mode = int(request.POST.get("whitelist_mode", 0))
+                form_status = int(request.POST.get("form_status", 0))
+                whitelisted_websites = str(request.POST.get("whitelisted_websites", "")).strip("")
+
+                form.whitelist_mode = True if whitelist_mode == 1 else False
+                form.is_active = True if form_status == 1 else False
+
+                whitelisted_websites_final = []
+
+                for website in whitelisted_websites.split(","):
+                    # o = urlparse(website.strip())
+                    whitelisted_websites_final.append(website.replace(" ",""))
+
+                form.whitelist_websites = whitelisted_websites_final
+                form.save()
+                message = "Form updated successfully !"
+                successful = 1
+            except:
+                message = "Form updation failed !"
+                successful = 0
             return redirect("dashboard/form/"+str(form.id)+"/edit/?m="+message+"&t="+str(successful))
 
-    data["form"] = form
-    return render(request, "user_dashboard/form_edit.html", data)
+        data["form"] = form
+        return render(request, "user_dashboard/form_edit.html", data)
+    except ObjectDoesNotExist:
+        return HttpResponse("<h1>4XX Not Found</h1>", status=404)
 
 
 @login_check_redirection_gateway
@@ -118,6 +133,8 @@ def delete_form(request, id):
     successful = 0
     try:
         form = Form.objects.get(id=id)
+        if not form.form_accesses.filter(user_id=request.user.id, access_level="admin").exists():
+            return HttpResponse("<h1>4XX Unauthorized</h1>", status=403)
         form.delete()
         message = "Form Deleted Successfully"
         successful = 1

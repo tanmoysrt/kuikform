@@ -16,7 +16,7 @@
                 {% csrf_token %}
                 <div class="card-body px-3 pt-0 pb-2">
                 <div class="mb-1 row">
-                    <label  class="col-sm-2 col-form-label">Formify ID</label>
+                    <label  class="col-sm-2 col-form-label">KuikForm ID</label>
                     <div class="col-sm-8">
                       <input type="text" readonly class="form-control-plaintext" value="{{ form.id }}">
                     </div>
@@ -100,7 +100,7 @@
                     <h5 class="font-weight-bolder">Facing Issue To Add In Website ?</h5>
                     <p class="mb-5">Check Documentation for installation process and other configuration. If you have still use with installation , Click on the youtube video and follow each step. If you still face issue contact us. We will surely resolve your issue. </p>
                     <a class="text-body text-sm font-weight-bold mb-0 icon-move-right mt-auto" href="javascript:;">
-                      Read More
+                      Watch Tutorial
                       <i class="fas fa-arrow-right text-sm ms-1" aria-hidden="true"></i>
                     </a>
                   </div>
@@ -120,8 +120,8 @@
               <span class="mask bg-gradient-dark"></span>
               <div class="card-body position-relative z-index-1 d-flex flex-column h-100 p-3">
                 <h5 class="text-white font-weight-bolder mb-4 pt-2">Contact Us</h5>
-                <p class="text-white">If you face any issue regarding installation in your website , mail us to <i>admin@formify.com</i>. We will respond to your mail within 2 hour. </p>
-                <a class="text-white text-xss font-weight-bold mb-0 icon-move-right mt-auto" href="mailto:ts741127@gmail.com?subject=Formify%20Support%20Team%20%3A"  target="_blank">
+                <p class="text-white">If you face any issue regarding installation in your website , mail us to <i>kuikform@gmail.com</i>. We will respond to your mail within 2 hour. </p>
+                <a class="text-white text-xss font-weight-bold mb-0 icon-move-right mt-auto" href="mailto:kuikform@gmail.com?subject=KuikForm%20Support%20Team%20%3A"  target="_blank">
                   Mail us now :)
                   <i class="fas fa-envelope text-sm ms-1" aria-hidden="true"></i>
                 </a>
@@ -153,7 +153,7 @@
               <label class="text-lg-center">Add the form id in your html -> body -> form tag</label>
               <textarea readonly class="form-control" rows="5" style="line-height: 30px">
   <!--- Put the form id in the form tag like below --->
-  <form formify-id="{{ form.id }}">
+  <form kuikform-id="{{ form.id }}">
         <!--- Your code -->
   </form>
               </textarea>

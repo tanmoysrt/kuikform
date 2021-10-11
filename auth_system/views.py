@@ -72,6 +72,7 @@ def register_page(request):
             )
             user.set_password(password)
             user.save()
+            user.save()
             data["message"] = "Account created successfully"
             login(request, user)
             record = VerifyMailLinkDirectory.objects.create(
@@ -105,32 +106,36 @@ def reset_link_verify(request):
             record.delete()
             user.save()
             showForm = False
-            data["message"] = "Password Changed Successfully"
+            return redirect("/login/")
     except:
         showForm = False
         data["message"] = "Invalid Link"
     data["showForm"] = showForm
     return render(request, "auth_system/reset_pass_verify.html", data)
 
+
 def verify_mail_details_page(request):
-    resend = int(request.GET.get("resend",0))
+    if request.user.verified:
+        return redirect("/dashboard/")
+
+    resend = int(request.GET.get("resend", 0))
+    resend = 0
     if resend == 1:
         record = VerifyMailLinkDirectory.objects.create(
             user=request.user,
             verification_key=''.join(random.choices(string.ascii_lowercase + string.digits, k=80))
         )
         send_verification_link_mail(request.user.first_name + " " + request.user.last_name, request.user.email,
-                        f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
+                                    f"http://127.0.0.1:8000/verifymail/?i={str(record.id)}&k={record.verification_key}")
 
-    if request.user.verified:
-        return redirect("/dashboard/")
+    return render(request, "auth_system/verify_mail.html")
 
-    return render(request,"auth_system/verify_mail.html")
 
 def verify_mail_id(request):
     data = {}
     recordid = request.GET.get("i", "");
     key = request.GET.get("k", "")
+    successVerified = False
 
     try:
         record = VerifyMailLinkDirectory.objects.get(id=recordid, verification_key=key)
@@ -138,8 +143,8 @@ def verify_mail_id(request):
         user.verified = True
         user.save()
         record.delete()
-        data["message"] = "email id verified successfully"
+        successVerified = True
     except:
-        data["message"] = "Invalid Link"
+        successVerified = False
+    data["verified"] = successVerified
     return render(request, "auth_system/verify_mail_confirmation.html", data)
-
