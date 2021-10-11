@@ -4,7 +4,7 @@ import os, environ
 env = environ.Env(
     SECRET_KEY=(str, "django-insecure-(68ggl!jo9g%e8&t=jav^p0+6=+xvrn+g5)oid)8u)q3e1xwg&"),
     DEBUG=(int, 0),
-    ENDPOINT=(str, "127.0.0.1:8000"),
+    ENDPOINT=(str, "127.0.0.1"),
     PROTOCOL=(str, "http://"),
     SMTP_USERID=(str, ""),
     SMTP_PASSWORD=(str, "")
@@ -23,7 +23,7 @@ SMTP_PASSWORD = env("SMTP_PASSWORD")
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-ALLOWED_HOSTS = ["127.0.0.1",MAIN_ENDPOINT]
+ALLOWED_HOSTS = ["www.kuikform.com",MAIN_ENDPOINT]
 
 # Application definition
 
