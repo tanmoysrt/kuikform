@@ -7,7 +7,9 @@ env = environ.Env(
     ENDPOINT=(str, "127.0.0.1"),
     PROTOCOL=(str, "http://"),
     SMTP_USERID=(str, ""),
-    SMTP_PASSWORD=(str, "")
+    SMTP_PASSWORD=(str, ""),
+    TAWKTO_ID_SITE=(str, ""),
+    TAWKTO_API_KEY=(str, "")
 )
 environ.Env.read_env()
 
@@ -129,6 +131,9 @@ APPEND_SLASH = True
 USER_LOGIN_REDIRECT_URL = "/login/"
 DASHBOARD_LINK = "/dashboard/"
 
-TAWKTO_ID_SITE = "6165269086aee40a57361b78"
-TAWKTO_API_KEY = "b0b1ba09d9ea6f46a6828c0002fcb7e08e2d77a4"
-TAWKTO_IS_SECURE=True
+
+TAWKTO_ID_SITE = env("TAWKTO_ID_SITE")
+TAWKTO_API_KEY = env("TAWKTO_API_KEY")
+
+
+TAWKTO_IS_SECURE = True

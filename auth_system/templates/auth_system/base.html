@@ -1,4 +1,7 @@
 {% load static %}
+{% load tawkto_tags %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +10,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{% static "user_dashboard/img/apple-icon.png" %}">
   <link rel="icon" type="image/png" href="{% static "user_dashboard/img/favicon.png" %}">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
   <title>
     KuikForm Authentication
   </title>
@@ -33,6 +38,8 @@
   <script src="{% static "user_dashboard/js/core/bootstrap.min.js" %}"></script>
   <script src="{% static "user_dashboard/js/plugins/perfect-scrollbar.min.js" %}"></script>
   <script src="{% static "user_dashboard/js/plugins/smooth-scrollbar.min.js" %}"></script>
+
+    {% tawkto_script  widget_id='1fhpht9rs' %}
 
 </body>
 
