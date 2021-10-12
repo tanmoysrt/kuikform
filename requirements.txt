@@ -6,3 +6,4 @@ sqlparse==0.4.2
 django-environ
 psycopg2
 gunicorn
+django-tawkto

@@ -1,4 +1,5 @@
 {% load static %}
+{% load tawkto_tags %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +8,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{% static "user_dashboard/img/apple-icon.png" %}">
   <link rel="icon" type="image/png" href="{% static "user_dashboard/img/favicon.png" %}">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+
   <title>
     {{ title }}
   </title>
@@ -176,17 +179,7 @@
 
     {% endblock %}
 
-
-<script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/6165269086aee40a57361b78/1fhpht9rs';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-        })();
-</script>
+    {% tawkto_script %}
 </body>
 
 </html>

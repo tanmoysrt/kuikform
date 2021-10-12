@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'tawkto',
     'form_process.apps.FormProcessConfig',
     'auth_system.apps.AuthSystemConfig',
     'user_dashboard.apps.UserDashboardConfig'
@@ -128,8 +129,6 @@ APPEND_SLASH = True
 USER_LOGIN_REDIRECT_URL = "/login/"
 DASHBOARD_LINK = "/dashboard/"
 
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
+TAWKTO_ID_SITE = "6165269086aee40a57361b78"
+TAWKTO_API_KEY = "b0b1ba09d9ea6f46a6828c0002fcb7e08e2d77a4"
+TAWKTO_IS_SECURE=True
