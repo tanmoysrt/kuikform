@@ -9,9 +9,9 @@ def link_builder(data):
     try:
         validate(data)
         return f'''
-        <span class="font-weight-bold badge badge-sm bg-gradient-dark mx-3" style="cursor: pointer"  onclick='window.open("{data}","_blank")' >
+        <a class="font-weight-bold badge badge-sm bg-gradient-dark mx-3" style="cursor: pointer"  href='{data}' target='_blank' >
           <i class="far fa-file fa-lg"></i>&nbsp;&nbsp;View File
-        </span>
+        </a>
         '''
     except:
         return data
