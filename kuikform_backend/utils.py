@@ -3,7 +3,8 @@ import ssl
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from kuikform_backend.settings import SMTP_PASSWORD, SMTP_USERID
+from kuikform_backend.settings import SMTP_PASSWORD, SMTP_USERID, REPLY_TO_ADDRESS
+
 
 def send_reset_mail(name, mail_id, reset_link):
     context = ssl.create_default_context()
@@ -13,6 +14,7 @@ def send_reset_mail(name, mail_id, reset_link):
         message["Subject"] = "Here is your reset link"
         message["From"] = "KuikForm <no-reply@kuikform.com>"
         message["To"] = f"{name} <{mail_id}>"
+        message.add_header('reply-to', REPLY_TO_ADDRESS)
 
         html = """   
     <!doctype html>
@@ -27,13 +29,13 @@ def send_reset_mail(name, mail_id, reset_link):
     </style>
     </head>
 
-    <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #ffffff;" leftmargin="0">
     <!--100% body table-->
-    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#ffffff"
         style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
         <tr>
             <td>
-                <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
+                <table style="background-color: #ffffff; max-width:670px;  margin:0 auto;" width="100%" border="0"
                     align="center" cellpadding="0" cellspacing="0">
                     <tr>
                         <td style="height:80px;">&nbsp;</td>
@@ -41,7 +43,7 @@ def send_reset_mail(name, mail_id, reset_link):
                     <tr>
                         <td style="text-align:center;">
                           <a href="https://kuikform.com" title="logo" target="_blank">
-                            <img width="180" src="https://raw.githubusercontent.com/GiantsMeet/Devhunt-Launching-Page/main/images/logo_full_black.png" title="logo" alt="logo">
+                            <img width="180" src="https://cdn.jsdelivr.net/gh/KuikForm/cdn@main/kuikform_logo.png" title="KuikForm" alt="KuikForm">
                           </a>
                         </td>
                     </tr>
@@ -121,6 +123,8 @@ def send_verification_link_mail(name, mail_id, verify_link):
         message["Subject"] = "Verify KuikForm Account"
         message["From"] = "KuikForm <no-reply@kuikform.com>"
         message["To"] = f"{name} <{mail_id}>"
+        message.add_header('reply-to', REPLY_TO_ADDRESS)
+
 
         html = """   
     <!doctype html>
@@ -135,15 +139,15 @@ def send_verification_link_mail(name, mail_id, verify_link):
     </style>
     </head>
 
-    <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" 
+    <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #ffffff;" 
     leftmargin="0"> <!--100% body table--> <table cellspacing="0" border="0" cellpadding="0" width="100%" 
-    bgcolor="#f2f3f8" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,
-    400,600,700); font-family: 'Open Sans', sans-serif;"> <tr> <td> <table style="background-color: #f2f3f8; 
+    bgcolor="#ffffff" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,
+    400,600,700); font-family: 'Open Sans', sans-serif;"> <tr> <td> <table style="background-color: #ffffff; 
     max-width:670px;  margin:0 auto;" width="100%" border="0" align="center" cellpadding="0" cellspacing="0"> <tr> 
     <td style="height:80px;">&nbsp;</td> </tr> <tr> <td style="text-align:center;"> <a href="https://kuikform.com" 
-    title="logo" target="_blank"> <img width="180" 
-    src="https://raw.githubusercontent.com/GiantsMeet/Devhunt-Launching-Page/main/images/logo_full_black.png" 
-    title="logo" alt="logo"> </a> </td> </tr> <tr> <td style="height:20px;">&nbsp;</td> </tr> <tr> <td> <table 
+    title="KuikForm" target="_blank"> <img width="180" 
+    src="https://cdn.jsdelivr.net/gh/KuikForm/cdn@main/kuikform_logo.png" 
+    title="KuikForm" alt="KuikForm"> </a> </td> </tr> <tr> <td style="height:20px;">&nbsp;</td> </tr> <tr> <td> <table 
     width="95%" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width:670px;background:#fff; 
     border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 
     rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);"> <tr> <td style="height:40px;">&nbsp;</td> </tr> <tr> 

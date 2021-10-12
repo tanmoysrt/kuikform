@@ -134,6 +134,6 @@ DASHBOARD_LINK = "/dashboard/"
 
 TAWKTO_ID_SITE = env("TAWKTO_ID_SITE")
 TAWKTO_API_KEY = env("TAWKTO_API_KEY")
-
-
 TAWKTO_IS_SECURE = True
+
+REPLY_TO_ADDRESS = "kuikform@gmail.com"
