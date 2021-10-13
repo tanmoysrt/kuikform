@@ -12,9 +12,9 @@ def send_reset_mail(name, mail_id, reset_link):
     try:
         message = MIMEMultipart("alternative")
         message["Subject"] = "Here is your reset link"
-        message["From"] = "KuikForm <no-reply@kuikform.com>"
+        message["From"] = "KuikForm <no-reply@giantsmeet.com>"
         message["To"] = f"{name} <{mail_id}>"
-        message.add_header('reply-to', REPLY_TO_ADDRESS)
+        message["reply-to"] = REPLY_TO_ADDRESS
 
         html = """   
     <!doctype html>
@@ -108,7 +108,7 @@ def send_reset_mail(name, mail_id, reset_link):
         server.ehlo()  # Can be omitted
         server.login(smtp_user, smtp_pass)
 
-        server.sendmail("no-reply@kuikform.com", mail_id, message.as_string())
+        server.sendmail("no-reply@giantsmeet.com", mail_id, message.as_string())
         print("Success Mailed")
     except Exception as e:
         print(e)
@@ -121,9 +121,9 @@ def send_verification_link_mail(name, mail_id, verify_link):
     try:
         message = MIMEMultipart("alternative")
         message["Subject"] = "Verify KuikForm Account"
-        message["From"] = "KuikForm <no-reply@kuikform.com>"
+        message["From"] = "KuikForm <no-reply@giantsmeet.com>"
         message["To"] = f"{name} <{mail_id}>"
-        message.add_header('reply-to', REPLY_TO_ADDRESS)
+        message["reply-to"] = REPLY_TO_ADDRESS
 
 
         html = """   
@@ -194,7 +194,7 @@ def send_verification_link_mail(name, mail_id, verify_link):
         server.ehlo()  # Can be omitted
         server.login(smtp_user, smtp_pass)
 
-        server.sendmail("no-reply@kuikform.com", mail_id, message.as_string())
+        server.sendmail("no-reply@giantsmeet.com", mail_id, message.as_string())
         print("Success Mailed")
     except Exception as e:
         print(e)
