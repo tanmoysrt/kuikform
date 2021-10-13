@@ -22,6 +22,9 @@ MAIN_PROTOCOL = env("PROTOCOL")
 SMTP_USERID = env("SMTP_USERID")
 SMTP_PASSWORD = env("SMTP_PASSWORD")
 
+print(SMTP_USERID)
+print(SMTP_PASSWORD)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
