@@ -4,6 +4,6 @@ django-cors-headers==3.9.0
 pytz==2021.1
 sqlparse==0.4.2
 django-environ
-psycopg2
+psycopg2-binary
 gunicorn
 django-tawkto

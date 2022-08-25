@@ -12,7 +12,7 @@ def send_reset_mail(name, mail_id, reset_link):
     try:
         message = MIMEMultipart("alternative")
         message["Subject"] = "Here is your reset link"
-        message["From"] = "KuikForm <no-reply@giantsmeet.com>"
+        message["From"] = "KuikForm <kuikform@gmail.com>"
         message["To"] = f"{name} <{mail_id}>"
         message["reply-to"] = REPLY_TO_ADDRESS
 
@@ -42,7 +42,7 @@ def send_reset_mail(name, mail_id, reset_link):
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                          <a href="https://kuikform.com" title="logo" target="_blank">
+                          <a href="https://kuikform.tanmoy.codes" title="logo" target="_blank">
                             <img width="180" src="https://cdn.jsdelivr.net/gh/KuikForm/cdn@main/kuikform_logo.png" title="KuikForm" alt="KuikForm">
                           </a>
                         </td>
@@ -83,7 +83,7 @@ def send_reset_mail(name, mail_id, reset_link):
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>kuikform.com</strong></p>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>kuikform.tanmoy.codes</strong></p>
                         </td>
                     </tr>
                     <tr>
@@ -102,13 +102,13 @@ def send_reset_mail(name, mail_id, reset_link):
 
         smtp_user = SMTP_USERID
         smtp_pass = SMTP_PASSWORD
-        server = smtplib.SMTP("email-smtp.ap-south-1.amazonaws.com", 587)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()  # Can be omitted
         server.starttls(context=context)  # Secure the connection
         server.ehlo()  # Can be omitted
         server.login(smtp_user, smtp_pass)
 
-        server.sendmail("no-reply@giantsmeet.com", mail_id, message.as_string())
+        server.sendmail("kuikform@gmail.com", mail_id, message.as_string())
         print("Success Mailed")
     except Exception as e:
         print(e)
@@ -119,9 +119,10 @@ def send_verification_link_mail(name, mail_id, verify_link):
     context = ssl.create_default_context()
 
     try:
+        print(verify_link)
         message = MIMEMultipart("alternative")
         message["Subject"] = "Verify KuikForm Account"
-        message["From"] = "KuikForm <no-reply@giantsmeet.com>"
+        message["From"] = "KuikForm <kuikform@gmail.com>"
         message["To"] = f"{name} <{mail_id}>"
         message["reply-to"] = REPLY_TO_ADDRESS
 
@@ -144,7 +145,7 @@ def send_verification_link_mail(name, mail_id, verify_link):
     bgcolor="#ffffff" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,
     400,600,700); font-family: 'Open Sans', sans-serif;"> <tr> <td> <table style="background-color: #ffffff; 
     max-width:670px;  margin:0 auto;" width="100%" border="0" align="center" cellpadding="0" cellspacing="0"> <tr> 
-    <td style="height:80px;">&nbsp;</td> </tr> <tr> <td style="text-align:center;"> <a href="https://kuikform.com" 
+    <td style="height:80px;">&nbsp;</td> </tr> <tr> <td style="text-align:center;"> <a href="https://kuikform.tanmoy.codes" 
     title="KuikForm" target="_blank"> <img width="180" 
     src="https://cdn.jsdelivr.net/gh/KuikForm/cdn@main/kuikform_logo.png" 
     title="KuikForm" alt="KuikForm"> </a> </td> </tr> <tr> <td style="height:20px;">&nbsp;</td> </tr> <tr> <td> <table 
@@ -169,7 +170,7 @@ def send_verification_link_mail(name, mail_id, verify_link):
                     </tr>
                     <tr>
                         <td style="text-align:center;">
-                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>kuikform.com</strong></p>
+                            <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>kuikform.tanmoy.codes</strong></p>
                         </td>
                     </tr>
                     <tr>
@@ -188,13 +189,13 @@ def send_verification_link_mail(name, mail_id, verify_link):
 
         smtp_user = SMTP_USERID
         smtp_pass = SMTP_PASSWORD
-        server = smtplib.SMTP("email-smtp.ap-south-1.amazonaws.com", 587)
+        server = smtplib.SMTP("smtp.gmail.com", 587)
         server.ehlo()  # Can be omitted
         server.starttls(context=context)  # Secure the connection
         server.ehlo()  # Can be omitted
         server.login(smtp_user, smtp_pass)
 
-        server.sendmail("no-reply@giantsmeet.com", mail_id, message.as_string())
+        server.sendmail("kuikform@gmail.com", mail_id, message.as_string())
         print("Success Mailed")
     except Exception as e:
         print(e)

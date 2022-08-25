@@ -3,13 +3,18 @@ import os, environ
 
 env = environ.Env(
     SECRET_KEY=(str, "django-insecure-(68ggl!jo9g%e8&t=jav^p0+6=+xvrn+g5)oid)8u)q3e1xwg&"),
-    DEBUG=(int, 0),
+    DEBUG=(int, 1),
     ENDPOINT=(str, "127.0.0.1"),
     PROTOCOL=(str, "http://"),
     SMTP_USERID=(str, ""),
     SMTP_PASSWORD=(str, ""),
     TAWKTO_ID_SITE=(str, ""),
-    TAWKTO_API_KEY=(str, "")
+    TAWKTO_API_KEY=(str, ""),
+    DB_NAME=(str, ""),
+    DB_USER=(str, ""),
+    DB_PASS=(str, ""),
+    DB_HOST=(str, "")
+    
 )
 environ.Env.read_env()
 
@@ -28,7 +33,7 @@ print(SMTP_PASSWORD)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-ALLOWED_HOSTS = ["www.kuikform.com",MAIN_ENDPOINT]
+ALLOWED_HOSTS = ["kuikform.tanmoy.codes",MAIN_ENDPOINT]
 
 # Application definition
 
