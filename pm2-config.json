@@ -1,0 +1,12 @@
+{
+    "name": "kuikform.tanmoy.codes",
+    "script": "manage.py",
+    "args": "runserver",
+    "log_type": "json",
+    "cwd": "/home/ubuntu/kuikform",
+    "interpreter": "/home/ubuntu/kuikform/env/bin/python3",
+    "env": {
+      "PORT": 8000,
+      "CI": 1
+    }
+  }
