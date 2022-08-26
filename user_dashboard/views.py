@@ -98,7 +98,7 @@ def form_edit(request, id):
             except:
                 message = "Form updation failed !"
                 successful = 0
-            return redirect("dashboard/form/"+str(form.id)+"/edit/?m="+message+"&t="+str(successful))
+            return redirect("/dashboard/form/"+str(form.id)+"/edit/?m="+message+"&t="+str(successful))
 
         data["form"] = form
         return render(request, "user_dashboard/form_edit.html", data)
